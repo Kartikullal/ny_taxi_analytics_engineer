@@ -1,0 +1,62 @@
+###
+### A complete description of a Prefect Deployment for flow 'etl-web-to-gcs-parent-flow'
+###
+name: ETL PIPELINE FOR WEB TO GCS
+description: null
+version: 62fd17a5ad8655149fddfd4d41a49b65
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: null
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: etl-web-to-gcs-parent-flow
+manifest_path: null
+storage: null
+path: /Users/kartikullal/Documents/data egineering projects/ny_taxI/ny_taxi_analytics_engineer
+entrypoint: ingest_data/etl_web_to_gcs.py:etl_web_to_gcs_parent_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    months:
+      title: months
+      default:
+      - 1
+      - 2
+      position: 0
+      type: array
+      items: {}
+    years:
+      title: years
+      default:
+      - 2021
+      position: 1
+      type: array
+      items: {}
+    color:
+      title: color
+      default: yellow
+      position: 2
+      type: string
+  required: null
+  definitions: null
+timestamp: '2023-12-20T02:00:21.003729+00:00'
+triggers: []
+enforce_parameter_schema: null

@@ -68,7 +68,7 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
     write_gcs(path, df_clean)
 
 @flow()
-def etl_parent_flow(
+def etl_web_to_gcs_parent_flow(
     months: list = [1, 2], years: list = [2021], color: str = "yellow"
 ):
     for year in years:
@@ -80,4 +80,4 @@ if __name__ == "__main__":
     color = "yellow"
     months = [4]
     year = [2020]
-    etl_parent_flow(months, year, color)
+    etl_web_to_gcs_parent_flow(months, year, color)
