@@ -27,6 +27,7 @@ select
     trips_unioned.vendorid, 
     trips_unioned.service_type,
     trips_unioned.ratecodeid, 
+    {{ get_rate_id_type_description('trips_unioned.ratecodeid') }} as rate_description,
     trips_unioned.pickup_locationid, 
     pickup_zone.borough as pickup_borough, 
     pickup_zone.zone as pickup_zone, 
