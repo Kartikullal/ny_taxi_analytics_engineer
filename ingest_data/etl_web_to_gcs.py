@@ -4,7 +4,10 @@ from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
 from prefect.tasks import task_input_hash
 from datetime import timedelta
-
+from google.cloud import storage
+# WARNING; WORKAROUND to prevent timeout for files > 6 MB on 800 kbps upload link.
+storage.blob._DEFAULT_CHUNKSIZE = 5 * 1024* 1024  # 5 MB
+storage.blob._MAX_MULTIPART_SIZE = 5 * 1024* 1024  # 5 MB
 
 @task(retries = 3, cache_key_fn=task_input_hash)
 def fetch(dataset_url : str) -> pd.DataFrame:
@@ -16,11 +19,25 @@ def fetch(dataset_url : str) -> pd.DataFrame:
 
 
 @task(log_prints = True)
-def clean(df: pd.DataFrame) -> pd.DataFrame:
+def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
     """Fix some Dtype issues"""
 
-    df['tpep_pickup_datetime'] = pd.to_datetime(df['tpep_pickup_datetime'])
-    df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
+    print(df.columns)
+    if(color == 'yellow'):
+        df['tpep_pickup_datetime'] = pd.to_datetime(df['tpep_pickup_datetime'])
+        df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
+
+    if(color == 'green'):
+        df['lpep_pickup_datetime'] = pd.to_datetime(df['lpep_pickup_datetime'])
+        df['lpep_pickup_datetime'] = pd.to_datetime(df['lpep_pickup_datetime'])
+    
+    if(color == 'fhv'):
+        df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+        df['dropOff_datetime'] = pd.to_datetime(df['dropOff_datetime'])
+    if(color == 'fhvhv'):
+        df['request_datetime'] = pd.to_datetime(df['request_datetime'])
+        df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+        df['dropoff_datetime'] = pd.to_datetime(df['dropoff_datetime'])
 
     df = df.drop_duplicates().reset_index(drop=True)
     df['trip_id'] = df.index + 1
@@ -61,7 +78,7 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
 
 
     df = fetch(dataset_url)
-    df_clean = clean(df)
+    df_clean = clean(df, color)
 
     path = write_local(df_clean, color, dataset_file)
 
@@ -77,7 +94,7 @@ def etl_web_to_gcs_parent_flow(
 
 
 if __name__ == "__main__":
-    color = "yellow"
-    months = [4]
-    year = [2020]
+    color = "fhvhv"
+    months = [1]
+    year = [2021]
     etl_web_to_gcs_parent_flow(months, year, color)
