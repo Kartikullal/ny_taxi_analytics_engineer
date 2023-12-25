@@ -36,7 +36,8 @@ select
     trips.congestion_surcharge,
     trips.airport_fee,
     trips.total_amount,
-    trips.driver_pay
+    trips.driver_pay,
+    trips.company_pay
 from {{ ref('stg_fhvhv_tripdata') }} as trips
 inner join dim_zones as pickup_zone
 on trips.pickup_locationid = pickup_zone.locationid
