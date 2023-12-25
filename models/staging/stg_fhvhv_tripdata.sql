@@ -52,7 +52,8 @@ select
     cast(tips as numeric) as tip_amount,
     cast(tolls as numeric) as tolls_amount,
     cast(congestion_surcharge as numeric) as congestion_surcharge,
-    cast(airport_fee as numeric) as airport_fee,
+    cast(COALESCE(airport_fee,0) as numeric) as airport_fee,
+    cast((base_passenger_fare + bcf + sales_tax + tips + tolls + congestion_surcharge + COALESCE(airport_fee,0) ) as numeric) as total_amount,
     cast(driver_pay as numeric) as driver_pay
 from tripdata
 where rn = 1
