@@ -10,3 +10,21 @@ macros:
         description: > 
           payment_type value.
           Must be one of the accepted values, otherwise the macro will return null
+  - name: get_company_name
+    description: >
+      This macro receives a hvfhs license number and returns the corresponding company name.
+    arguments:
+      - name: hvfhs_license_num
+        type: string
+        description: > 
+          hvfhs_license_num value.
+          Must be one of the accepted values, otherwise the macro will return null
+  - name: get_rate_id_type_description
+    description: >
+      This macro receives a rate id and returns the corresponding rate description.
+    arguments:
+      - name: ratecodeid
+        type: int
+        description: > 
+          ratecodeid value.
+          Must be one of the accepted values, otherwise the macro will return null
