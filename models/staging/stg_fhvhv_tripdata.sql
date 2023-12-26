@@ -61,7 +61,7 @@ where rn = 1
 
 
 
--- dbt build --m <model.sql> --var 'is_test_run: false'
+-- -- dbt build --m <model.sql> --var 'is_test_run: false'
 
 
-  limit 100
+--   limit 100
