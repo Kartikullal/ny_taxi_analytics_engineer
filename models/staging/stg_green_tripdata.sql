@@ -6,11 +6,13 @@ with tripdata as
     row_number() over(partition by vendorid, lpep_pickup_datetime) as rn
   from {{ source('staging','green_taxi_rides') }}
   where vendorid is not null 
+    and lpep_pickup_datetime >= '2009-01-01' AND lpep_pickup_datetime <= '2023-12-31'
 )
 select
     -- identifiers
     {{ dbt_utils.surrogate_key(['vendorid', 'lpep_pickup_datetime']) }} as tripid,
     cast(vendorid as integer) as vendorid,
+    {{ get_vendor_name('vendorid') }} as vendor_name, 
     cast(ratecodeid as integer) as ratecodeid,
     cast(pulocationid as integer) as  pickup_locationid,
     cast(dolocationid as integer) as dropoff_locationid,
