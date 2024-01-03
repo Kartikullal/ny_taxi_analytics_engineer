@@ -32,7 +32,8 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
     # df = pd.read_parquet(path)
     print(f"pre: missing passenger count: {df['passenger_count'].isna().sum()}")
     df["passenger_count"].fillna(0, inplace=True)
-    df['fare_amount'] = df['fare_amount'].abs()
+    # df['fare_amount'] = df['fare_amount'].abs()
+
     print(f"post: missing passenger count: {df['passenger_count'].isna().sum()}")
 
     return df
