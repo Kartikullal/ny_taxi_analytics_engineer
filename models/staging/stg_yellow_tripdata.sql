@@ -7,6 +7,7 @@ with tripdata as
   from {{ source('staging','yellow_taxi_rides') }}
   where vendorid is not null 
     and tpep_pickup_datetime >= '2009-01-01' AND tpep_pickup_datetime <= '2023-12-31'
+    and fare_amount > 0
 )
 select
    -- identifiers
