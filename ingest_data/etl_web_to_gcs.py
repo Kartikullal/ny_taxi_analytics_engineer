@@ -9,6 +9,7 @@ from google.cloud import storage
 storage.blob._DEFAULT_CHUNKSIZE = 5 * 1024* 1024  # 5 MB
 storage.blob._MAX_MULTIPART_SIZE = 5 * 1024* 1024  # 5 MB
 
+
 @task(retries = 3, cache_key_fn=task_input_hash)
 def fetch(dataset_url : str) -> pd.DataFrame:
     """Read data from web into pandas Dataframe"""
@@ -95,6 +96,6 @@ def etl_web_to_gcs_parent_flow(
 
 if __name__ == "__main__":
     color = "fhvhv"
-    months = [1]
-    year = [2021]
+    months = [1,2,3,4,5,6,7,8,9,10]
+    year = [2023]
     etl_web_to_gcs_parent_flow(months, year, color)
